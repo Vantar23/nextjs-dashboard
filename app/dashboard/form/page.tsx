@@ -66,10 +66,10 @@ export default function FormularioRequisicion() {
   return (
     <div className="p-6 bg-blue-500 min-h-screen flex justify-center items-center rounded-lg font-nerijya">
       <form className="bg-blue-100 rounded-lg p-6 space-y-4 border shadow-md w-full max-w-2xl">
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">Requisición</h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-6">Requisición</h1>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block font-semibold mb-1">Código</label>
+            <label className="block font-semibold text-lg mb-1">Código</label>
             <input
               type="text"
               name="codigo"
@@ -79,7 +79,7 @@ export default function FormularioRequisicion() {
             />
           </div>
           <div>
-            <label className="block font-semibold mb-1">Proveedor</label>
+            <label className="block font-semibold text-lg mb-1">Proveedor</label>
             <select
               name="proveedor"
               className="border rounded w-full p-2"
@@ -91,7 +91,7 @@ export default function FormularioRequisicion() {
             </select>
           </div>
           <div>
-            <label className="block font-semibold mb-1">Cantidad</label>
+            <label className="block font-semibold text-lg mb-1">Cantidad</label>
             <input
               type="number"
               name="cantidad"
@@ -101,7 +101,7 @@ export default function FormularioRequisicion() {
             />
           </div>
           <div>
-            <label className="block font-semibold mb-1">No. Factura</label>
+            <label className="block font-semibold text-lg mb-1">No. Factura</label>
             <input
               type="text"
               name="noFactura"
@@ -112,7 +112,7 @@ export default function FormularioRequisicion() {
             />
           </div>
           <div>
-            <label className="block font-semibold mb-1">Producto</label>
+            <label className="block font-semibold text-lg mb-1">Producto</label>
             <select
               name="producto"
               className="border rounded w-full p-2"
@@ -126,7 +126,7 @@ export default function FormularioRequisicion() {
             </select>
           </div>
           <div>
-            <label className="block font-semibold mb-1">No. Cotización</label>
+            <label className="block font-semibold text-lg mb-1">No. Cotización</label>
             <input
               type="text"
               name="noCotizacion"
@@ -136,7 +136,7 @@ export default function FormularioRequisicion() {
             />
           </div>
           <div>
-            <label className="block font-semibold mb-1">Unidad de Medida</label>
+            <label className="block font-semibold text-lg mb-1">Unidad de Medida</label>
             <select
               name="unidadMedida"
               className="border rounded w-full p-2"
@@ -150,7 +150,7 @@ export default function FormularioRequisicion() {
             </select>
           </div>
           <div>
-            <label className="block font-semibold mb-1">No. Catálogo y Marca</label>
+            <label className="block font-semibold text-lg mb-1">No. Catálogo y Marca</label>
             <select
               name="catalogo"
               className="border rounded w-full p-2"
@@ -163,7 +163,7 @@ export default function FormularioRequisicion() {
           </div>
         </div>
         <div className="mt-4">
-          <label className="block font-semibold mb-1">Observaciones</label>
+          <label className="block font-semibold text-lg mb-1">Observaciones</label>
           <textarea
             name="observaciones"
             className="border rounded w-full p-2 h-28"
