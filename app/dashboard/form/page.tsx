@@ -64,9 +64,9 @@ export default function FormularioRequisicion() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">Requisición</h1>
-      <form className="bg-white rounded p-6 space-y-4 border shadow-md" onSubmit={manejarEnvio}>
+    <div className="p-6 bg-blue-500 min-h-screen flex justify-center items-center rounded-lg font-nerijya">
+      <form className="bg-blue-100 rounded-lg p-6 space-y-4 border shadow-md w-full max-w-2xl">
+        <h1 className="text-2xl font-bold text-gray-800 mb-4">Requisición</h1>
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block font-semibold mb-1">Código</label>
@@ -171,13 +171,16 @@ export default function FormularioRequisicion() {
             onChange={manejarCambio}
           />
         </div>
-        <div className="mt-4">
-          <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">
+        <div className="mt-4 flex justify-end">
+          <button
+            type="submit"
+            className="bg-blue-500 text-white rounded-lg px-4 py-2 font-bold shadow hover:bg-blue-600"
+          >
             Agregar
           </button>
         </div>
+        {mensaje && <p className="mt-4 text-green-600">{mensaje}</p>}
       </form>
-      {mensaje && <p className="mt-4 text-green-600">{mensaje}</p>}
     </div>
   );
 }
