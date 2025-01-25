@@ -64,10 +64,10 @@ export default function FormularioRequisicion() {
   };
 
   return (
-    <div className="p-6 bg-blue-500 min-h-screen flex justify-center items-center rounded-lg font-nerijya">
-      <form className="bg-blue-100 rounded-lg p-6 space-y-4 border shadow-md w-full max-w-2xl">
+    <div className="p-6 bg-white min-h-screen flex justify-center items-center">
+      <form className="bg-gray-100 rounded-lg p-8 space-y-6 border border-gray-300 shadow-[0_4px_15px_rgba(0,0,0,0.3),0_8px_30px_rgba(0,0,0,0.15)] w-full max-w-2xl transition-all transform hover:scale-105 hover:shadow-[0_10px_30px_rgba(0,0,0,0.4),0_20px_60px_rgba(0,0,0,0.3)]">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">Requisición</h1>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-6">
           <div>
             <label className="block font-semibold text-lg mb-1">Código</label>
             <input
@@ -162,7 +162,7 @@ export default function FormularioRequisicion() {
             </select>
           </div>
         </div>
-        <div className="mt-4">
+        <div>
           <label className="block font-semibold text-lg mb-1">Observaciones</label>
           <textarea
             name="observaciones"
@@ -171,10 +171,10 @@ export default function FormularioRequisicion() {
             onChange={manejarCambio}
           />
         </div>
-        <div className="mt-4 flex justify-end">
+        <div className="mt-6 flex justify-end">
           <button
             type="submit"
-            className="bg-blue-500 text-white rounded-lg px-4 py-2 font-bold shadow hover:bg-blue-600"
+            className="bg-blue-500 text-white rounded-lg px-6 py-2 font-bold shadow hover:bg-blue-600"
           >
             Agregar
           </button>
