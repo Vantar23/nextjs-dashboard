@@ -65,7 +65,7 @@ export default function FormularioRequisicion() {
 
   return (
     <div className="p-6 bg-white min-h-screen flex justify-center items-center">
-      <form className="bg-gray-100 rounded-lg p-8 space-y-6 border border-gray-300 shadow-[0_4px_15px_rgba(0,0,0,0.3),0_8px_30px_rgba(0,0,0,0.15)] w-full max-w-2xl transition-all transform hover:scale-105 hover:shadow-[0_10px_30px_rgba(0,0,0,0.4),0_20px_60px_rgba(0,0,0,0.3)]">
+      <form className="bg-gray-100 rounded-lg p-8 space-y-6 border border-gray-300 shadow-[0_10px_30px_rgba(0,0,0,0.4),0_20px_60px_rgba(0,0,0,0.3)] scale-105 w-full max-w-2xl">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">Requisición</h1>
         <div className="grid grid-cols-2 gap-6">
           <div>
