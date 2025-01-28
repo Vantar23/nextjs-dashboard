@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import ComboComponent from "@/components/combo";
-import data from "./data.json"; // Importar datos locales
+import ComboInput from "@/components/combo"; // Tu componente
+import data from "./data.json"; // Datos locales opcionales
 
 export default function FormularioCompleto() {
   const [formulario, setFormulario] = useState({
@@ -27,21 +27,23 @@ export default function FormularioCompleto() {
       type === "number" ? (name === "cantidad" ? parseFloat(value) : parseInt(value)) : value;
 
     setFormulario((prev) => ({ ...prev, [name]: parsedValue }));
-    console.log(`${name} actualizado:`, parsedValue);
   };
 
   const manejarCambioArchivo = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setArchivos(Array.from(e.target.files)); // Guardar múltiples archivos
-      console.log("Archivos seleccionados:", Array.from(e.target.files).map((file) => file.name));
+      const archivosSeleccionados = Array.from(e.target.files);
+      if (archivosSeleccionados.length > 2) {
+        alert("Solo puedes cargar un máximo de dos archivos.");
+        return;
+      }
+      setArchivos(archivosSeleccionados);
     }
   };
 
   const manejarSeleccionCombo = (field: keyof typeof formulario) => {
-    return (option: { id: number; nombre: string } | null) => {
-      if (option) {
-        setFormulario((prev) => ({ ...prev, [field]: option.id }));
-        console.log(`${field} seleccionado:`, option);
+    return (seleccion: { [key: string]: number | null }) => {
+      if (seleccion) {
+        setFormulario((prev) => ({ ...prev, [field]: seleccion[field] }));
       }
     };
   };
@@ -60,7 +62,8 @@ export default function FormularioCompleto() {
     ];
 
     for (const campo of camposRequeridos) {
-      if (!formulario[campo as keyof typeof formulario]) {
+      const valor = formulario[campo as keyof typeof formulario];
+      if (valor === null || valor === "" || valor === 0) {
         alert(`El campo '${campo}' es obligatorio.`);
         return false;
       }
@@ -91,7 +94,7 @@ export default function FormularioCompleto() {
     });
 
     try {
-      const response = await fetch("http://37.27.133.117/backend/api/compras", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/compras`, {
         method: "POST",
         body: formData,
       });
@@ -99,16 +102,14 @@ export default function FormularioCompleto() {
       if (response.ok) {
         const data = await response.json();
         setMensaje(`Datos enviados exitosamente: ${data.message}`);
-        console.log("Respuesta del servidor:", data);
         reiniciarFormulario();
       } else {
         const errorData = await response.json();
-        setMensaje(`Error: ${errorData.error}`);
-        console.error("Error en el servidor:", errorData);
+        setMensaje(`Error del servidor: ${errorData.error || "Error desconocido"}`);
       }
     } catch (error) {
-      console.error("Error al enviar los datos:", error);
-      setMensaje("Hubo un problema al enviar los datos.");
+      setMensaje("Error de red: No se pudo enviar los datos.");
+      console.error("Error de red:", error);
     } finally {
       setLoading(false);
     }
@@ -127,10 +128,11 @@ export default function FormularioCompleto() {
       proveedorId: 0,
     });
     setArchivos([]);
+    setMensaje("");
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 rounded ">
+    <div className="max-w-4xl mx-auto p-6 rounded shadow-md bg-white">
       <h1 className="text-2xl font-bold text-gray-800 mb-6">Requisición</h1>
       <form
         onSubmit={manejarEnvio}
@@ -157,43 +159,23 @@ export default function FormularioCompleto() {
         ))}
 
         {/* Combo Components */}
-        <div>
-          <label className="block font-semibold mb-1">Producto</label>
-          <ComboComponent
-            localData={data.productos}
-            filterKey="nombre"
-            onOptionSelect={manejarSeleccionCombo("productoId")}
-          />
-        </div>
+        {[
+          { label: "Producto", propertyName: "Cat_Producto", field: "productoId" },
+          { label: "Proveedor", propertyName: "Cat_Proveedor", field: "proveedorId" },
+          { label: "Marca", propertyName: "Cat_Marca", field: "marcaId" },
+          { label: "Medida", propertyName: "Cat_Medida", field: "medidaId" },
+        ].map(({ label, propertyName, field }) => (
+          <div key={field}>
+            <label className="block font-semibold mb-1">{label}</label>
+            <ComboInput
+              apiUrl="/api/proxy"
+              propertyName={propertyName}
+              onSelectionChange={manejarSeleccionCombo(field as keyof typeof formulario)}
+            />
+          </div>
+        ))}
 
-        <div>
-          <label className="block font-semibold mb-1">Proveedor</label>
-          <ComboComponent
-            localData={data.proveedores}
-            filterKey="nombre"
-            onOptionSelect={manejarSeleccionCombo("proveedorId")}
-          />
-        </div>
-
-        <div>
-          <label className="block font-semibold mb-1">Marca</label>
-          <ComboComponent
-            localData={data.marcas}
-            filterKey="nombre"
-            onOptionSelect={manejarSeleccionCombo("marcaId")}
-          />
-        </div>
-
-        <div>
-          <label className="block font-semibold mb-1">Medida</label>
-          <ComboComponent
-            localData={data.medidas}
-            filterKey="nombre"
-            onOptionSelect={manejarSeleccionCombo("medidaId")}
-          />
-        </div>
-
-        {/* Campo para archivos */}
+        {/* Archivos */}
         <div className="col-span-1 md:col-span-2">
           <label className="block font-semibold mb-1">Archivos (archivo1 y archivo2)</label>
           <input
@@ -205,6 +187,7 @@ export default function FormularioCompleto() {
           />
         </div>
 
+        {/* Botón de envío */}
         <div className="col-span-1 md:col-span-2">
           <button
             type="submit"
@@ -216,7 +199,11 @@ export default function FormularioCompleto() {
         </div>
       </form>
 
-      {mensaje && <p className="mt-4 text-center text-lg font-medium text-green-600">{mensaje}</p>}
+      {mensaje && (
+        <p className={`mt-4 text-center text-lg font-medium ${mensaje.includes("Error") ? "text-red-600" : "text-green-600"}`}>
+          {mensaje}
+        </p>
+      )}
     </div>
   );
 }
