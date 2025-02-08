@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function FormularioRequisicion() {
   const [formData, setFormData] = useState({
@@ -16,8 +16,11 @@ export default function FormularioRequisicion() {
   });
 
   const [mensaje, setMensaje] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const manejarCambio = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const manejarCambio = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -63,9 +66,28 @@ export default function FormularioRequisicion() {
     }
   };
 
+  // Función para activar el input de archivos
+  const handleFileButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  // Maneja el cambio cuando se selecciona un archivo PDF
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      console.log("PDF seleccionado:", file);
+      // Aquí puedes agregar la lógica para subir el archivo a tu servidor o procesarlo según requieras.
+    }
+  };
+
   return (
     <div className="p-6 bg-white min-h-screen flex justify-center items-center">
-      <form className="bg-gray-100 rounded-lg p-8 space-y-6 border border-gray-300 shadow-[0_10px_30px_rgba(0,0,0,0.4),0_20px_60px_rgba(0,0,0,0.3)] scale-105 w-full max-w-2xl">
+      <form
+        className="bg-gray-100 rounded-lg p-8 space-y-6 border border-gray-300 shadow-[0_10px_30px_rgba(0,0,0,0.4),0_20px_60px_rgba(0,0,0,0.3)] scale-105 w-full max-w-2xl"
+        onSubmit={manejarEnvio}
+      >
         <h1 className="text-3xl font-bold text-gray-800 mb-6">Requisición</h1>
         <div className="grid grid-cols-2 gap-6">
           <div>
@@ -171,14 +193,28 @@ export default function FormularioRequisicion() {
             onChange={manejarCambio}
           />
         </div>
-        <div className="mt-6 flex justify-end">
+        <div className="mt-6 flex justify-between">
+          <button
+            type="button"
+            onClick={handleFileButtonClick}
+            className="bg-gradient-to-r from-gray-50 to-gray-100 text-gray-900 border border-gray-700 rounded-md px-4 py-2 font-semibold shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 transition transform duration-150 hover:scale-105"
+          >
+            Cargar PDF
+          </button>
           <button
             type="submit"
-            className="bg-blue-500 text-white rounded-lg px-6 py-2 font-bold shadow hover:bg-blue-600"
+            className="bg-blue-500 text-white rounded-lg px-6 py-2 font-bold shadow hover:bg-blue-600 transition transform duration-150 hover:scale-105"
           >
             Agregar
           </button>
         </div>
+        <input
+          type="file"
+          accept="application/pdf"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          style={{ display: "none" }}
+        />
         {mensaje && <p className="mt-4 text-green-600">{mensaje}</p>}
       </form>
     </div>
