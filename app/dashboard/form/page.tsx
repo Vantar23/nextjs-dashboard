@@ -19,7 +19,9 @@ export default function FormularioRequisicion() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const manejarCambio = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -83,11 +85,10 @@ export default function FormularioRequisicion() {
   };
 
   return (
-    <div className="p-6 bg-white min-h-screen flex justify-center items-center">
-      <form
-        className="bg-gray-100 rounded-lg p-8 space-y-6 border border-gray-300 scale-105 w-full max-w-2xl"
-        onSubmit={manejarEnvio}
-      >
+    // Contenedor que centra el formulario en la pantalla
+    <div className="min-h-screen flex items-center justify-center bg-white">
+      {/* Formulario con ancho máximo para que no se salga de la pantalla */}
+      <form className="w-full max-w-3xl p-8" onSubmit={manejarEnvio}>
         <h1 className="text-3xl font-bold text-gray-800 mb-6">Requisición</h1>
         <div className="grid grid-cols-2 gap-6">
           <div>
@@ -148,7 +149,9 @@ export default function FormularioRequisicion() {
             </select>
           </div>
           <div>
-            <label className="block font-semibold text-lg mb-1">No. Cotización</label>
+            <label className="block font-semibold text-lg mb-1">
+              No. Cotización
+            </label>
             <input
               type="text"
               name="noCotizacion"
@@ -158,7 +161,9 @@ export default function FormularioRequisicion() {
             />
           </div>
           <div>
-            <label className="block font-semibold text-lg mb-1">Unidad de Medida</label>
+            <label className="block font-semibold text-lg mb-1">
+              Unidad de Medida
+            </label>
             <select
               name="unidadMedida"
               className="border rounded w-full p-2"
@@ -172,7 +177,9 @@ export default function FormularioRequisicion() {
             </select>
           </div>
           <div>
-            <label className="block font-semibold text-lg mb-1">No. Catálogo y Marca</label>
+            <label className="block font-semibold text-lg mb-1">
+              No. Catálogo y Marca
+            </label>
             <select
               name="catalogo"
               className="border rounded w-full p-2"
@@ -185,7 +192,9 @@ export default function FormularioRequisicion() {
           </div>
         </div>
         <div>
-          <label className="block font-semibold text-lg mb-1">Observaciones</label>
+          <label className="block font-semibold text-lg mb-1">
+            Observaciones
+          </label>
           <textarea
             name="observaciones"
             className="border rounded w-full p-2 h-28"
